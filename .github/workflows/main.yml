@@ -1,4 +1,4 @@
-name: HDU Auto Punch
+name: ZCMU Auto Punch
 
 on:
   workflow_dispatch:
@@ -35,4 +35,5 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           TOKEN: ${{ secrets.TOKEN }}
+          LOCATION: ${{secrets.LOCATION}}
         run: python main.py
