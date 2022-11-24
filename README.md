@@ -42,4 +42,5 @@
 [杭州电子科技大学自动健康打卡脚本](https://github.com/Eanya-Tonic/HDU-Health_checkin)
 
 [zkeq 自用API](https://github.com/zkeq/icodeq-api)
+[浙江理工大学自动健康申报（新版）](https://github.com/typenoob/zstu_report)
 
