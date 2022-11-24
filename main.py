@@ -4,14 +4,15 @@ from notify import send
 import json
 import logging
 import time
-import sys
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.service import Service
+import sys
 
 class report:
     def __init__(self):
