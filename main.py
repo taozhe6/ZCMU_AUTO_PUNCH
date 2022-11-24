@@ -123,7 +123,7 @@ class report:
     def check(self) -> bool:
         url = 'https://yqfk.zcmu.edu.cn:5010/Noauth/api/form/api/DataSource/GetDataSourceByNo?sqlNo=SELECT_XSJKDK${}'
         res = json.loads(requests.get(url.format(self.__username)).text)
-        print(res)
+        #print(res)
         logging.info('Checking data:{}'.format(res))
         if len(res['data']) == 0:
             return False
