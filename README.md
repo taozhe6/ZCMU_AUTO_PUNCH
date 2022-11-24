@@ -19,7 +19,10 @@
  | PASSWORD      | 统一身份认证密码 |    |
  | TOKEN（选填） | 推送服务     | 详见 notify.py(pushplus,dingbot等) |
  |LOCATION      |定位              | 须按规范填写，后果自负|
- 自用[pushplus](http://www.pushplus.plus)，可以自行修改代码
+ 
+ 
+ 自用 ✔ [pushplus](http://www.pushplus.plus)，可以自行修改代码
+  
  > 配置方法演示
 
  ![](./assets/create_secret.png)
