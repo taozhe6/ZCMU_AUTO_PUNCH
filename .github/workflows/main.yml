@@ -32,6 +32,7 @@ jobs:
             && chromedriver --version
       - name: Auto Punch
         env:
+          TZ: Asia/Shanghai
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           TOKEN: ${{ secrets.TOKEN }}
