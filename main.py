@@ -151,7 +151,7 @@ def main(dev: bool = False):
     retries = 5
     username = os.environ["USERNAME"].strip()
     password = os.environ["PASSWORD"].strip()
-    PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
+    PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()#若更改，将PUSH_PLUS_TOKEN全部替换
     location = os.environ["LOCATION"].strip()
     #location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
