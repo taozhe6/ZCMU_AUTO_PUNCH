@@ -37,6 +37,7 @@
  ![](./assets/success.png)
 
  ## 鸣谢
+ [HDU-AutoPunch 杭州电子科技大学自动健康打卡脚本](https://github.com/YeQiuO/HDU_AUTO_PUNCH)
 
  [浙大城市学院健康打卡脚本](https://github.com/chansyawn/zucc-auto-check)
 
