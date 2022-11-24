@@ -20,8 +20,7 @@ class report:
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)   
-        self.__client = webdriver.Chrome()
+        self.__client = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)   
         self.__wait = WebDriverWait(self.__client, 10, 0.5)
 
     def __get_element_by_xpath(self, xpath: str):
