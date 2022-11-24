@@ -4,6 +4,7 @@ from notify import send
 import json
 import logging
 import time
+import sys
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
