@@ -128,7 +128,7 @@ class report:
         res = json.loads(requests.get(url.format(self.__username)).text)
         global DKYC
         DKYC = res['data'][0]['DKYC']
-        #print(res)
+        print(res)
         logging.info('Checking data:{}'.format(res))
         if len(res['data']) == 0:
             return False
