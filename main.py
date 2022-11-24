@@ -110,17 +110,17 @@ class report:
             submit_button.click()
             #change_submit.click()
             time.sleep(1)
-            attention = self.__get_element_by_xpath(
+            #attention = self.__get_element_by_xpath(
                 '/html/body/div[3]/div[2]/div').text
-            if attention == '确认提交吗':
+            #if attention == '确认提交吗':
 
                 confirm_button = self.__get_element_by_xpath(
                     '/html/body/div[3]/div[3]/button[2]')
                 confirm_button.click()
                 self.__flag = True
                 return True
-            else:
-                return False
+           # else:
+           #     return False
                 
     
     def check(self) -> bool:
