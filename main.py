@@ -162,7 +162,7 @@ def main(dev: bool = False):
             if dev:
                 return '已经打过卡了！'
             if PUSH_PLUS_TOKEN :
-                send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME)')
+                send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
             else:
                 if dev:
                     return '打卡成功！'
@@ -171,7 +171,7 @@ def main(dev: bool = False):
                         logging.info(
                                 'succeed: {}'.format(username))
                         if PUSH_PLUS_TOKEN:
-                            send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME)')
+                            send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
                         break
                     retries -= 1
                 else:
