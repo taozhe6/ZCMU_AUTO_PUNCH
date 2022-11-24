@@ -1,116 +1,179 @@
+import datetime
 import os
-import sys
+from notify import send
+import json
+import logging
 import time
-
 import requests
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 
 
-class Punch:
-
+class report:
     def __init__(self):
-        self.un = os.environ["SCHOOL_ID"].strip()  # 学号
-        self.pd = os.environ["PASSWORD"].strip()  # 密码
-        self.SCKey = os.environ["SCKEY"]
-
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)
-        self.wait = WebDriverWait(self.driver, 3, 0.5)
+        self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)   
+        self.__client = webdriver.Chrome()
+        self.__wait = WebDriverWait(self.__client, 10, 0.5)
 
-    # 获取本地 SESSIONID
-    def login(self):
+    def __get_element_by_xpath(self, xpath: str):
+        return self.__wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+
+    def login(self,username:str,password:str) -> bool:
+        self.__username = username
+        
+        self.__flag = False
         try:
-            self.driver.get("https://cas.hdu.edu.cn/cas/login")
-            self.wait.until(EC.presence_of_element_located((By.ID, "un")))
-            self.wait.until(EC.presence_of_element_located((By.ID, "pd")))
-            self.wait.until(EC.presence_of_element_located((By.ID, "index_login_btn")))
-            self.driver.find_element(By.ID, 'un').clear()
-            self.driver.find_element(By.ID, 'un').send_keys(self.un)  # 传送帐号
-            self.driver.find_element(By.ID, 'pd').clear()
-            self.driver.find_element(By.ID, 'pd').send_keys(self.pd)  # 输入密码
-            self.driver.find_element(By.ID, 'index_login_btn').click()
+            self.__client.get(
+                "https://yqfk.zcmu.edu.cn:6006/iForm/2714073AABBBDF56AF8E54")
+            #assert "Python" in driver.title
+            #elem = driver.find_element_by_name("q")
+            # elem.send_keys("pycon")
+            # elem.send_keys(Keys.RETURN)
+            #assert "No results found." not in driver.page_source
+            # self.driver.close()
+            ids_button = self.__get_element_by_xpath(
+                '/html/body/frame-options/div/div/div[2]/div/div/div[3]/ul/li[3]/a')
+            ids_button.click()
+            uername_input = self.__get_element_by_xpath(
+                '/html/body/div[1]/div[4]/div/form/table/tbody/tr[1]/td/input[1]')
+            psw_input = self.__get_element_by_xpath(
+                '/html/body/div[1]/div[4]/div/form/table/tbody/tr[2]/td/input[1]')
+            login_button = self.__get_element_by_xpath(
+                '/html/body/div[1]/div[4]/div/form/table/tbody/tr[4]/td/input')
+            uername_input.send_keys(username)
+            psw_input.send_keys(password)
+            login_button.click()
+            time.sleep(1)
         except Exception as e:
-            print(e.__class__.__name__ + "无法访问数字杭电")
-            self.wechatNotice("无法访问数字杭电")
-            sys.exit(1)
+                print(e)
+                return False
+        else:
+                return True
+        
+    def do(self, location: str) -> bool:
+ 
+            select_js = """
+    function getElementByXpath(path) {
+    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    }
+    ele = getElementByXpath(arguments[0]);
+    ele.readOnly = false;
+    ele.value = arguments[1];
+    """
+            self.__client.execute_script(
+                select_js, '//*[@id="iform"]/div[1]/div[3]/form/div[10]/div/div/div[2]/div/div/div/div[1]/input', location)
+            change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
+            change.click()
+            time.sleep(1)
+            Q3 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[10]/div/div/div[2]/div/div/div/div[1]/input')
+            Q16 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[24]/div/div/div[2]/div/div/div/div[1]/div/div[1]/div')
+            Q21 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[30]/div/div/div[2]/div/div/div/div[1]/div/div[1]/div')
+            Q22 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[31]/div/div/div[2]/div/div/div/div[1]/div/div[1]/div')
+            Q23 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[33]/div/div/div[2]/div/div/div/div[1]/div/div[2]/div/i')
+            Q24 = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[34]/div/div/div[2]/div/div/div/div[1]/div/div[4]/div/i')
+            announce = self.__get_element_by_xpath(
+                '/html/body/div/div[2]/div[1]/div[3]/form/div[35]/div/div/div[2]/div/div/div/div[1]/div/div/div')
+            submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
+            #change_submit = self.__get_element_by_xpath(
+            #    '/html/body/div/div[2]/div[1]/div[4]/div/button')
+            Q3.send_keys(location)
+            time.sleep(1)
+            Q16.click()
+            time.sleep(1)
+            Q21.click()
+            time.sleep(1)
+            Q22.click()
+            time.sleep(1)
+            Q23.click()
+            time.sleep(1)
+            Q24.click()
+            time.sleep(1)
+            announce.click()
+            time.sleep(1)
+            submit_button.click()
+            #change_submit.click()
+            time.sleep(1)
+            attention = self.__get_element_by_xpath(
+                '/html/body/div[3]/div[2]/div').text
+            if attention == '确认提交吗':
 
-        try:
-            self.wait.until(EC.presence_of_element_located((By.ID, "errormsg")))
-            print("帐号登录失败")
-            self.wechatNotice(self.un + "帐号登录失败")
-        except TimeoutException as e:
-            self.driver.get("https://skl.hduhelp.com/passcard.html#/passcard")
-            for retryCnt in range(10):
-                time.sleep(1)
-                sessionId = self.driver.execute_script("return window.localStorage.getItem('sessionId')")
-                if sessionId is not None and sessionId != '':
-                    break
-            print(self.send(sessionId))
-        finally:
-            self.driver.quit()
+                confirm_button = self.__get_element_by_xpath(
+                    '/html/body/div[3]/div[3]/button[2]')
+                confirm_button.click()
+                self.__flag = True
+                return True
+            else:
+                return False
+                
+    
+    def check(self) -> bool:
+        url = 'https://yqfk.zcmu.edu.cn:5010/Noauth/api/form/api/DataSource/GetDataSourceByNo?sqlNo=SELECT_XSJKDK${}'
+        res = json.loads(requests.get(url.format(self.__username)).text)
+        print(res)
+        logging.info('Checking data:{}'.format(res))
+        if len(res['data']) == 0:
+            return False
+        unix_dtime = int(time.mktime(datetime.date.today().timetuple()))
+        unix_ctime = int(time.mktime(time.strptime(
+            res['data'][0]['CURRENTTIME'], '%Y-%m-%d %H:%M:%S')))
+        logging.info('unix_dtime: {}, unix_ctime:{}'.format(
+            unix_dtime, unix_ctime))
+        return True if unix_dtime <= unix_ctime else False
 
-    # 执行打卡
-    def send(self, sessionid):
-        headers = {
-            'Content-Type': 'application/json',
-            'X-Auth-Token': sessionid,
-            'User-Agent': 'Mozilla/5.0 (Linux; Android 11; Pixel 4 XL Build/RQ3A.210705.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36 AliApp(DingTalk/5.1.5) com.alibaba.android.rimet/13534898 Channel/212200 language/zh-CN UT4Aplus/0.2.25 colorScheme/light'
-        }
-        url = "https://skl.hdu.edu.cn/api/punch"
-        data = {
-            "currentLocation": "浙江省杭州市钱塘区",
-            "city": "杭州市",
-            "districtAdcode": "330114",
-            "province": "浙江省",
-            "district": "钱塘区",
-            "healthCode": 0,
-            "healthReport": 0,
-            "currentLiving": 0,
-            "last14days": 0
-        }
+    def destruct(self):
+        self.__client.quit()
 
-        for retryCnt in range(3):
-            try:
-                res = requests.post(url, json=data, headers=headers, timeout=30)
-                if res.status_code == 200:
-                    return "打卡成功"
-                elif retryCnt == 3:
-                    print("提交表单失败")
-                    self.wechatNotice("打卡失败")
-            except Exception as e:
-                if retryCnt < 2:
-                    print(e.__class__.__name__ + "打卡失败，正在重试")
-                    time.sleep(3)
+    def status(self) -> bool:
+        return self.__flag
+
+def main(dev: bool = False):
+    retries = 5
+    username = os.environ["USERNAME"].strip()
+    password = os.environ["PASSWORD"].strip()
+    PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
+    location = os.environ["LOCATION"].strip()
+    #location='浙江省/杭州市/富阳区/富春街道'
+    logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
+                        format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    re = report()
+    if re.login(username,password):
+        if re.check():
+            if dev:
+                return '已经打过卡了！'
+            if PUSH_PLUS_TOKEN :
+                send('健康打卡', '已经打过卡了！')
+            else:
+                if dev:
+                    return '打卡成功！'
+                while retries >= 0:
+                    if re.do(location):
+                        logging.info(
+                                'succeed: {}'.format(username))
+                        if PUSH_PLUS_TOKEN:
+                            send('健康打卡', '打卡成功！')
+                        break
+                    retries -= 1
                 else:
-                    print("打卡失败")
-                    self.wechatNotice("打卡失败")
+                    if dev:
+                        return '打卡失败！'
+                    logging.info('error: {}'.format(username))
+                    if PUSH_PLUS_TOKEN:
+                        send('健康打卡', '打卡失败！')
 
-    # 打卡失败微信提示
-    def wechatNotice(self, message):
-        if self.SCKey != '':
-            url = 'https://sctapi.ftqq.com/{0}.send'.format(self.SCKey)
-            data = {
-                'title': message,
-            }
-            try:
-                r = requests.post(url, data=data)
-                if r.json()["data"]["error"] == 'SUCCESS':
-                    print("微信通知成功")
-                else:
-                    print("微信通知失败")
-            except Exception as e:
-                print(e.__class__, "推送服务配置错误")
+   
 
-
-if __name__ == '__main__':
-    punch = Punch()
-    punch.login()
+if __name__ == "__main__":
+    main()
