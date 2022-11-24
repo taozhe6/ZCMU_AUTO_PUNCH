@@ -14,6 +14,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 import sys
 
+DKYC=''
+DKTIME=''
+
 class report:
     def __init__(self):
         chrome_options = Options()
@@ -123,6 +126,8 @@ class report:
     def check(self) -> bool:
         url = 'https://yqfk.zcmu.edu.cn:5010/Noauth/api/form/api/DataSource/GetDataSourceByNo?sqlNo=SELECT_XSJKDK${}'
         res = json.loads(requests.get(url.format(self.__username)).text)
+        global DKYC
+        DKYC = res['data'][0]['DKYC']
         #print(res)
         logging.info('Checking data:{}'.format(res))
         if len(res['data']) == 0:
@@ -130,6 +135,8 @@ class report:
         unix_dtime = int(time.mktime(datetime.date.today().timetuple()))
         unix_ctime = int(time.mktime(time.strptime(
             res['data'][0]['CURRENTTIME'], '%Y-%m-%d %H:%M:%S')))
+        global DKTIME
+        DKTIME = res['data'][0]['CURRENTTIME']
         logging.info('unix_dtime: {}, unix_ctime:{}'.format(
             unix_dtime, unix_ctime))
         return True if unix_dtime <= unix_ctime else False
@@ -155,7 +162,7 @@ def main(dev: bool = False):
             if dev:
                 return '已经打过卡了！'
             if PUSH_PLUS_TOKEN :
-                send('健康打卡', '已经打过卡了！')
+                send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME)')
             else:
                 if dev:
                     return '打卡成功！'
@@ -164,7 +171,7 @@ def main(dev: bool = False):
                         logging.info(
                                 'succeed: {}'.format(username))
                         if PUSH_PLUS_TOKEN:
-                            send('健康打卡', '打卡成功！')
+                            send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME)')
                         break
                     retries -= 1
                 else:
