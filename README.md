@@ -18,6 +18,7 @@
  | USERNAME     | 学号             |    |
  | PASSWORD      | 统一身份认证密码 |    |
  | TOKEN（选填） | 微信推送服务     | 详见 notify.py |
+ |LOCATION      |定位              | 须按规范填写，后果自负|
 
  > 配置方法演示
 
