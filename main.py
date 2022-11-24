@@ -135,6 +135,8 @@ class report:
         unix_dtime = int(time.mktime(datetime.date.today().timetuple()))
         unix_ctime = int(time.mktime(time.strptime(
             res['data'][0]['CURRENTTIME'], '%Y-%m-%d %H:%M:%S')))
+        print(unix_dtime)
+        print(unix_ctime)
         global DKTIME
         DKTIME = res['data'][0]['CURRENTTIME']
         logging.info('unix_dtime: {}, unix_ctime:{}'.format(
