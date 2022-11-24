@@ -32,7 +32,7 @@ jobs:
             && chromedriver --version
       - name: Auto Punch
         env:
-          SCHOOL_ID: ${{ secrets.SCHOOL_ID }}
+          USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          SCKEY: ${{ secrets.SCKEY }}
+          TOKEN: ${{ secrets.TOKEN }}
         run: python main.py
