@@ -111,7 +111,7 @@ class report:
             #change_submit.click()
             time.sleep(1)
             #attention = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[2]/div').text
+            #    '/html/body/div[3]/div[2]/div').text
             #if attention == '确认提交吗':
 
                 confirm_button = self.__get_element_by_xpath(
@@ -128,7 +128,7 @@ class report:
         res = json.loads(requests.get(url.format(self.__username)).text)
         global DKYC
         DKYC = res['data'][0]['DKYC']
-        print(res)
+        #print(res)
         logging.info('Checking data:{}'.format(res))
         if len(res['data']) == 0:
             return False
