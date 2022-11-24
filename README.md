@@ -1,4 +1,4 @@
-# HDU-AutoPunch 杭州电子科技大学自动健康打卡脚本
+# ZCMU自动健康打卡脚本
 
 ## ❗❗❗请遵守学校防疫政策，出现异常请关闭脚本手动进行打卡❗❗❗
 
@@ -14,9 +14,9 @@
 
 | Name          | Value            | Desc                                                       |
 | ------------- | ---------------- | ---------------------------------------------------------- |
-| SCHOOL_ID     | 学号             | 需通过 [统一身份认证](https://cas.hdu.edu.cn/cas/login)    |
-| PASSWORD      | 统一身份认证密码 | 需通过 [统一身份认证](https://cas.hdu.edu.cn/cas/login)    |
-| SCKEY（选填） | 微信推送服务     | 详见 [Sever酱](https://sct.ftqq.com/) 配置微信推送打卡结果 |
+| USERNAME     | 学号             |    |
+| PASSWORD      | 统一身份认证密码 |    |
+| TOKEN（选填） | 微信推送服务     | 详见 notify.py |
 
 > 配置方法演示
 
