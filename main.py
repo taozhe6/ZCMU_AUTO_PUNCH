@@ -110,17 +110,16 @@ class report:
             submit_button.click()
             #change_submit.click()
             time.sleep(1)
-            #attention = self.__get_element_by_xpath(
-            #    '/html/body/div[3]/div[2]/div').text
-            #if attention == '确认提交吗':
-
-            confirm_button = self.__get_element_by_xpath(
-            '/html/body/div[3]/div[3]/button[2]')
-            confirm_button.click()
-            self.__flag = True
-            return True
-           # else:
-           #     return False
+            attention = self.__get_element_by_xpath(
+                '/html/body/div[3]/div[2]/div').text
+            if attention == '确认提交吗':
+                confirm_button = self.__get_element_by_xpath(
+                '/html/body/div[3]/div[3]/button[2]')
+                confirm_button.click()
+                self.__flag = True
+                return True
+            else:
+                return False
                 
     
     def check(self) -> bool:
@@ -158,16 +157,17 @@ def main(dev: bool = False):
     #location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
                         format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-    re = report()
+re = report()
+    print(DKYC)
     if re.login(username,password):
-        if re.check():
-            if dev:
-                return '已经打过卡了！'
+        if re.check()== False:            
+            # if dev:
+            #     return '已经打过卡了！'
             if PUSH_PLUS_TOKEN :
                 send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
-            else:
-                if dev:
-                    return '打卡成功！'
+        else:
+                # if dev:
+                #     return '打卡成功！'
                 while retries >= 0:
                     if re.do(location):
                         logging.info(
@@ -177,8 +177,8 @@ def main(dev: bool = False):
                         break
                     retries -= 1
                 else:
-                    if dev:
-                        return '打卡失败！'
+                    # if dev:
+                    #     return '打卡失败！'
                     logging.info('error: {}'.format(username))
                     if PUSH_PLUS_TOKEN:
                         send('健康打卡', '打卡失败！')
@@ -187,3 +187,4 @@ def main(dev: bool = False):
 
 if __name__ == "__main__":
     main()
+
