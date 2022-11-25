@@ -20,8 +20,8 @@
 
  | Name          | Value            | Desc                                                       |
  | ------------- | ---------------- | ---------------------------------------------------------- |
- | USERNAME     | 学号             |    |
- | PASSWORD      | 统一身份认证密码 |    |
+ | USERNAME     | 学号             |   https://ias.zcmu.edu.cn/cas/login |
+ | PASSWORD      | 统一身份认证密码 |   https://ias.zcmu.edu.cn/cas/login |
  | TOKEN（选填） | 推送服务     | 详见 notify.py(pushplus,dingbot等) |
  |LOCATION      |定位              | 须按规范填写，后果自负|
  
