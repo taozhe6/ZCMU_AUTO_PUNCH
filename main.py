@@ -78,7 +78,7 @@ class report:
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[35]/div/div/div[2]/div/div/div/div[1]/div/div/div')
             submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
             #change_submit = self.__get_element_by_xpath(
-                '/html/body/div/div[2]/div[1]/div[4]/div/button')
+            #   '/html/body/div/div[2]/div[1]/div[4]/div/button')
             Q3.clear()
             Q3.send_keys(location)
             time.sleep(1)
