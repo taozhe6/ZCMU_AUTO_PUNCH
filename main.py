@@ -24,7 +24,7 @@ class report:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         #self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)   
-        self.__client = webdriver.Chrome()
+        self.__client = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)
         self.__wait = WebDriverWait(self.__client, 10, 0.5)
 
     def __get_element_by_xpath(self, xpath: str):
@@ -37,12 +37,6 @@ class report:
         try:
             self.__client.get(
                 "https://yqfk.zcmu.edu.cn:6006/iForm/2714073AABBBDF56AF8E54")
-            #assert "Python" in driver.title
-            #elem = driver.find_element_by_name("q")
-            # elem.send_keys("pycon")
-            # elem.send_keys(Keys.RETURN)
-            #assert "No results found." not in driver.page_source
-            # self.driver.close()
             ids_button = self.__get_element_by_xpath(
                 '/html/body/frame-options/div/div/div[2]/div/div/div[3]/ul/li[3]/a')
             ids_button.click()
@@ -142,13 +136,10 @@ class report:
 
 def main(dev: bool = False):
     retries = 5
-    ##password = os.environ["PASSWORD"].strip()
-    username='202112210406004'
-    password='Ldk20021113@'
-    #PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
-    PUSH_PLUS_TOKEN='4fe890f7be974aacafbf838542e6cca2'
-    #location = os.environ["LOCATION"].strip()
-    location='浙江省/杭州市/富阳区/富春街道'
+    password = os.environ["PASSWORD"].strip()
+    PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
+    location = os.environ["LOCATION"].strip()
+    #location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
                         format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     re = report()
