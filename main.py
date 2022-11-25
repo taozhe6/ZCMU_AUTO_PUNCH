@@ -136,6 +136,7 @@ class report:
 
 def main(dev: bool = False):
     retries = 5
+    username = os.environ["USERNAME"].strip()
     password = os.environ["PASSWORD"].strip()
     PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
     location = os.environ["LOCATION"].strip()
