@@ -47,7 +47,9 @@
  ![](./assets/success.png)
 
  ## 鸣谢
- [HDU-AutoPunch 杭州电子科技大学自动健康打卡脚本](https://github.com/YeQiuO/HDU_AUTO_PUNCH)
+ [浙江理工大学自动健康申报（新版）](https://github.com/typenoob/zstu_report)(大部分代码，打卡系统为杭州某多)
+  
+ [HDU-AutoPunch 杭州电子科技大学自动健康打卡脚本](https://github.com/YeQiuO/HDU_AUTO_PUNCH)(Github Action环境)
 
  [浙大城市学院健康打卡脚本](https://github.com/chansyawn/zucc-auto-check)
 
@@ -55,7 +57,7 @@
 
  [zkeq 自用API](https://github.com/zkeq/icodeq-api)
  
- [浙江理工大学自动健康申报（新版）](https://github.com/typenoob/zstu_report)
+
 
 # TO DO
 > 继续借鉴各位大佬的经验，用仅有的能力更新
