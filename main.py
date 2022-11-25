@@ -14,7 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 import sys
 
-
+Fail_Rea=''
 DKYC=''
 DKTIME=''
 class report:   
@@ -56,7 +56,8 @@ class report:
         else:
                 return True
         
-    def do(self, location: str) -> bool:            
+    def do(self, location: str) -> bool:
+            global Fail_Rea
             self.__client.execute_script(
                 'document.getElementsByClassName("van-field__control")[18].readOnly = false')
             #change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
@@ -107,6 +108,7 @@ class report:
                 self.__flag = True
                 return True
             else:
+                Fail_Rea = attention
                 return False
                 
     
@@ -167,7 +169,7 @@ def main(dev: bool = False):
                     #     return '打卡失败！'
                     logging.info('error: {}'.format(username))
                     if PUSH_PLUS_TOKEN:
-                        send('健康打卡', '打卡失败！')
+                        send('健康打卡', '打卡失败！\n 失败原因:%s' %Fail_Rea)
 
    
 
