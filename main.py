@@ -61,18 +61,9 @@ class report:
         else:
                 return True
         
-    def do(self, location: str) -> bool:
- 
-            select_js = """
-    function getElementByXpath(path) {
-    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    }
-    ele = getElementByXpath(arguments[0]);
-    ele.readOnly = false;
-    ele.value = arguments[1];
-    """
+    def do(self, location: str) -> bool:           
             self.__client.execute_script(
-                'document.getElementsByClassName("van-field__control")[18].readOnly = false')
+                'document.getElementsByClassName("van-field__control")[6].readOnly = false')
             change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
             change.click()
             time.sleep(1)
@@ -111,16 +102,17 @@ class report:
             submit_button.click()
             #change_submit.click()
             time.sleep(1)
-            attention = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[2]/div').text
-            if attention == '确认提交吗':
-                confirm_button = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[3]/button[2]')
-                confirm_button.click()
-                self.__flag = True
-                return True
-            else:
-                return False
+            #attention = self.__get_element_by_xpath(
+            #    '/html/body/div[3]/div[2]/div').text
+            #if attention == '确认提交吗':
+
+            confirm_button = self.__get_element_by_xpath(
+            '/html/body/div[3]/div[3]/button[2]')
+            confirm_button.click()
+            self.__flag = True
+            return True
+           # else:
+           #     return False
                 
     
     def check(self) -> bool:
@@ -159,31 +151,31 @@ def main(dev: bool = False):
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
                         format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     re = report()
-    print(DKYC)
     if re.login(username,password):
-        if re.check()== False:            
-            # if dev:
-            #     return '已经打过卡了！'
+        if re.check() == False:
+            if dev:
+                return '已经打过卡了！'
             if PUSH_PLUS_TOKEN :
                 send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
-        else:
-                # if dev:
-                #     return '打卡成功！'
-                while retries >= 0:
-                    if re.do(location):
-                        logging.info(
-                                'succeed: {}'.format(username))
-                        if PUSH_PLUS_TOKEN:
-                            send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
-                        break
-                    retries -= 1
+         else:
+            if dev:
+                return '打卡成功！'
+            while retries >= 0:
+                if re.do(location):
+                    logging.info(
+                            'succeed: {}'.format(username))
+                    if PUSH_PLUS_TOKEN:
+                        send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
+                    break
+                retries -= 1
                 else:
-                    # if dev:
-                    #     return '打卡失败！'
+                    if dev:
+                        return '打卡失败！'
                     logging.info('error: {}'.format(username))
                     if PUSH_PLUS_TOKEN:
                         send('健康打卡', '打卡失败！')
 
+   
+
 if __name__ == "__main__":
     main()
-
