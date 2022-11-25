@@ -59,8 +59,8 @@ class report:
     def do(self, location: str) -> bool:            
             self.__client.execute_script(
                 'document.getElementsByClassName("van-field__control")[18].readOnly = false')
-            change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
-            change.click()
+            #change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
+            #change.click()
             time.sleep(1)
             Q3 = self.__get_element_by_xpath(
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[10]/div/div/div[2]/div/div/div/div[1]/input')
@@ -76,8 +76,8 @@ class report:
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[34]/div/div/div[2]/div/div/div/div[1]/div/div[4]/div/i')
             announce = self.__get_element_by_xpath(
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[35]/div/div/div[2]/div/div/div/div[1]/div/div/div')
-            #submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
-            change_submit = self.__get_element_by_xpath(
+            submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
+            #change_submit = self.__get_element_by_xpath(
                 '/html/body/div/div[2]/div[1]/div[4]/div/button')
             Q3.clear()
             Q3.send_keys(location)
@@ -92,10 +92,10 @@ class report:
             time.sleep(1)
             Q24.click()
             time.sleep(1)
-            #announce.click()
+            announce.click()
             time.sleep(1)
-            #submit_button.click()
-            change_submit.click()
+            submit_button.click()
+            #change_submit.click()
             time.sleep(1)
             attention = self.__get_element_by_xpath(
                 '/html/body/div[3]/div[2]/div').text#/html/body/div[3]/div[2]/div
@@ -146,7 +146,7 @@ def main(dev: bool = False):
     re = report()
     print(DKYC)
     if re.login(username,password):
-        if re.check()== False:            
+        if re.check():            
             # if dev:
             #     return '已经打过卡了！'
             if PUSH_PLUS_TOKEN :
