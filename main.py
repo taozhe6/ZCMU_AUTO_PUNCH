@@ -99,7 +99,7 @@ class report:
             #change_submit.click()
             time.sleep(1)
             attention = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[2]/div').text#/html/body/div[3]/div[2]/div
+                '/html/body/div[3]/div[2]/div').text
             if attention == '确认提交吗':
 
                 confirm_button = self.__get_element_by_xpath(
