@@ -58,8 +58,10 @@ class report:
         
     def do(self, location: str) -> bool:
             global Fail_Rea
-            self.__client.execute_script(
-                'document.getElementsByClassName("van-field__control")[18].readOnly = false')
+            x = self.__get_element_by_xpath()q
+            if x.get_attribute('readyonly'):
+                self.__client.execute_script(
+                    'document.getElementsByClassName("van-field__control")[18].readonly = false')
             #change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
             #change.click()
             time.sleep(1)
