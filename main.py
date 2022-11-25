@@ -72,7 +72,7 @@ class report:
     ele.value = arguments[1];
     """
             self.__client.execute_script(
-                select_js, '//*[@id="iform"]/div[1]/div[3]/form/div[10]/div/div/div[2]/div/div/div/div[1]/input', location)
+                'document.getElementsByClassName("van-field__control")[18].readOnly = false')
             change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
             change.click()
             time.sleep(1)
@@ -93,6 +93,7 @@ class report:
             submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
             #change_submit = self.__get_element_by_xpath(
             #    '/html/body/div/div[2]/div[1]/div[4]/div/button')
+            Q3.clear()
             Q3.send_keys(location)
             time.sleep(1)
             Q16.click()
