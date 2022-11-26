@@ -156,8 +156,8 @@ def main(dev: bool = False):
     retries = 5
     username = os.environ["USERNAME"].strip()
     password = os.environ["PASSWORD"].strip()
-    DD_BOT_TOKEN = os.getenv("DD_BOT_TOKEN")
-    DD_BOT_SECRET =os.getenv("DD_BOT_SECRET")
+    DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"].strip()
+    DD_BOT_SECRET =os.environ["DD_BOT_SECRET"].strip()
     location = os.environ["LOCATION"].strip()
     # location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
