@@ -156,7 +156,8 @@ def main(dev: bool = False):
     retries = 5
     username = os.environ["USERNAME"].strip()
     password = os.environ["PASSWORD"].strip()
-    PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
+    DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"].strip()
+    DD_BOT_SECRET =os.environ["DD_BOT_SECRET"].strip()
     location = os.environ["LOCATION"].strip()
     # location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
@@ -167,7 +168,7 @@ def main(dev: bool = False):
         if re.check():
             # if dev:
             #     return '已经打过卡了！'
-            if PUSH_PLUS_TOKEN:
+            if DD_BOT_TOKEN:
                 send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME))
         else:
             # if dev:
@@ -176,7 +177,7 @@ def main(dev: bool = False):
                 if re.do(location):
                     logging.info(
                         'succeed: {}'.format(username))
-                    if PUSH_PLUS_TOKEN:
+                    if DD_BOT_TOKEN:
                         send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %
                              (DKYC, DKTIME))
                     break
@@ -185,7 +186,7 @@ def main(dev: bool = False):
                 # if dev:
                 #     return '打卡失败！'
                 logging.info('error: {}'.format(username))
-                if PUSH_PLUS_TOKEN:
+                if DD_BOT_TOKEN:
                     send('健康打卡', '打卡失败！\n 失败原因:%s' % Fail_Rea)
 
 
