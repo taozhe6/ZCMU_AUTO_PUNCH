@@ -169,7 +169,7 @@ def main(dev: bool = False):
             # if dev:
             #     return '已经打过卡了！'
             if DD_BOT_TOKEN:
-                notify.send('Already', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME))
+                notify.main()#.send('Already', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME))
         else:
             # if dev:
             #     return '打卡成功！'
@@ -178,7 +178,7 @@ def main(dev: bool = False):
                     logging.info(
                         'succeed: {}'.format(username))
                     if DD_BOT_TOKEN:
-                        notify.send('Successful', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %
+                        notify.main()#.send('Successful', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %
                              (DKYC, DKTIME))
                     break
                 retries -= 1
@@ -187,7 +187,7 @@ def main(dev: bool = False):
                 #     return '打卡失败！'
                 logging.info('error: {}'.format(username))
                 if DD_BOT_TOKEN:
-                    notify.send('ERROR', '打卡失败！\n 失败原因:%s' % Fail_Rea)
+                    notify.main()#.send('ERROR', '打卡失败！\n 失败原因:%s' % Fail_Rea)
     re.destruct()
 
 if __name__ == "__main__":
