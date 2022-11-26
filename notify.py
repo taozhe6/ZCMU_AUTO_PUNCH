@@ -15,7 +15,8 @@ import requests
 # 原先的 print 函数和主线程的锁
 _print = print
 mutex = threading.Lock()
-
+title = ''
+content = ''
 
 # 定义新的 print 函数
 def print(text, *args, **kw):
@@ -534,7 +535,7 @@ def send(title: str, content: str) -> None:
 
 
 def main():
-    send("title", "content")
+    send(title, content)
 
 
 if __name__ == "__main__":
