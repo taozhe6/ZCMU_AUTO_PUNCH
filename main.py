@@ -179,7 +179,7 @@ def main(dev: bool = False):
                         'succeed: {}'.format(username))
                     if DD_BOT_TOKEN:
                         notify.main()#.send('Successful', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %
-                             (DKYC, DKTIME))
+                             #(DKYC, DKTIME))
                     break
                 retries -= 1
             else:
