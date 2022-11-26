@@ -14,25 +14,28 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 import sys
 
-Fail_Rea=''
-DKYC=''
-DKTIME=''
-class report:   
+Fail_Rea = ''
+DKYC = ''
+DKTIME = ''
+
+
+class report:
     def __init__(self):
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-        #self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)   
-        self.__client = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)
+        #self.driver = webdriver.Chrome(service=Service('/usr/bin/chromedriver'), options=chrome_options)
+        self.__client = webdriver.Chrome(service=Service(
+            '/usr/bin/chromedriver'), options=chrome_options)
         self.__wait = WebDriverWait(self.__client, 10, 0.5)
 
     def __get_element_by_xpath(self, xpath: str):
         return self.__wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
 
-    def login(self,username:str,password:str) -> bool:
+    def login(self, username: str, password: str) -> bool:
         self.__username = username
-        
+
         self.__flag = False
         try:
             self.__client.get(
@@ -51,17 +54,24 @@ class report:
             login_button.click()
             time.sleep(1)
         except Exception as e:
-                print(e)
-                return False
+            print(e)
+            return False
         else:
-                return True
-        
+            return True
+
     def do(self, location: str) -> bool:
+        try:
             global Fail_Rea
-            x = self.__get_element_by_xpath()q
-            if x.get_attribute('readyonly'):
-                self.__client.execute_script(
-                    'document.getElementsByClassName("van-field__control")[18].readonly = false')
+            select_js = """
+                    function getElementByXpath(path) {
+                    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    }
+                    ele = getElementByXpath(arguments[0]);
+                    ele.readOnly = false;
+                    ele.value = arguments[1];
+                    """
+            self.__client.execute_script(
+                select_js, '//*[@id="iform"]/div[1]/div[3]/form/div[10]/div/div/div[2]/div/div/div/div[1]/input', location)
             #change = self.__get_element_by_xpath('/html/body/div/div[2]/button[1]')
             #change.click()
             time.sleep(1)
@@ -79,10 +89,11 @@ class report:
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[34]/div/div/div[2]/div/div/div/div[1]/div/div[4]/div/i')
             announce = self.__get_element_by_xpath(
                 '/html/body/div/div[2]/div[1]/div[3]/form/div[35]/div/div/div[2]/div/div/div/div[1]/div/div/div')
-            submit_button=self.__get_element_by_xpath('/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
-            #change_submit = self.__get_element_by_xpath(
-            #   '/html/body/div/div[2]/div[1]/div[4]/div/button')
-            #Q3.clear()
+            submit_button = self.__get_element_by_xpath(
+                '/html/body/div[1]/div[2]/div[1]/div[4]/div/button[1]')
+            # change_submit = self.__get_element_by_xpath(
+            #    '/html/body/div/div[2]/div[1]/div[4]/div/button')
+            Q3.clear()
             Q3.send_keys(location)
             time.sleep(1)
             Q16.click()
@@ -101,25 +112,27 @@ class report:
             #change_submit.click()
             time.sleep(1)
             attention = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[2]/div').text
+                '/html/body/div[3]/div[2]/div').text  # /html/body/div[3]/div[2]/div
+            print(attention)
             if attention == '确认提交吗':
-
                 confirm_button = self.__get_element_by_xpath(
-                    '/html/body/div[3]/div[3]/button[2]')
+                    '/html/body/div[3]/div[3]/button[2]')  # /html/body/div[3]/div[3]/button[2]
                 confirm_button.click()
                 self.__flag = True
                 return True
             else:
-                Fail_Rea = attention
                 return False
-                
-    
+        except Exception as e:
+            Fail_Rea = e
+            print(e)
+            return False
+
     def check(self) -> bool:
         url = 'https://yqfk.zcmu.edu.cn:5010/Noauth/api/form/api/DataSource/GetDataSourceByNo?sqlNo=SELECT_XSJKDK${}'
         res = json.loads(requests.get(url.format(self.__username)).text)
         global DKYC
         DKYC = res['data'][0]['DKYC']
-        #print(res)
+        # print(res)
         logging.info('Checking data:{}'.format(res))
         if len(res['data']) == 0:
             return False
@@ -138,42 +151,43 @@ class report:
     def status(self) -> bool:
         return self.__flag
 
+
 def main(dev: bool = False):
     retries = 5
     username = os.environ["USERNAME"].strip()
     password = os.environ["PASSWORD"].strip()
     PUSH_PLUS_TOKEN = os.environ["TOKEN"].strip()
     location = os.environ["LOCATION"].strip()
-    #location='浙江省/杭州市/富阳区/富春街道'
+    # location='浙江省/杭州市/富阳区/富春街道'
     logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
                         format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     re = report()
     print(DKYC)
-    if re.login(username,password):
-        if re.check():            
+    if re.login(username, password):
+        if re.check():
             # if dev:
             #     return '已经打过卡了！'
-            if PUSH_PLUS_TOKEN :
-                send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
+            if PUSH_PLUS_TOKEN:
+                send('健康打卡', '已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME))
         else:
-                # if dev:
-                #     return '打卡成功！'
-                while retries >= 0:
-                    if re.do(location):
-                        logging.info(
-                                'succeed: {}'.format(username))
-                        if PUSH_PLUS_TOKEN:
-                            send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC,DKTIME))
-                        break
-                    retries -= 1
-                else:
-                    # if dev:
-                    #     return '打卡失败！'
-                    logging.info('error: {}'.format(username))
+            # if dev:
+            #     return '打卡成功！'
+            while retries >= 0:
+                if re.do(location):
+                    logging.info(
+                        'succeed: {}'.format(username))
                     if PUSH_PLUS_TOKEN:
-                        send('健康打卡', '打卡失败！\n 失败原因:%s' %Fail_Rea)
+                        send('健康打卡', '打卡成功！\n打卡状态:%s\n打卡时间:%s' %
+                             (DKYC, DKTIME))
+                    break
+                retries -= 1
+            else:
+                # if dev:
+                #     return '打卡失败！'
+                logging.info('error: {}'.format(username))
+                if PUSH_PLUS_TOKEN:
+                    send('健康打卡', '打卡失败！\n 失败原因:%s' % Fail_Rea)
 
-   
 
 if __name__ == "__main__":
     main()
