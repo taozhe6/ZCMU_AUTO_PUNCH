@@ -188,7 +188,7 @@ def main(dev: bool = False):
                 logging.info('error: {}'.format(username))
                 if DD_BOT_TOKEN:
                     send('健康打卡', '打卡失败！\n 失败原因:%s' % Fail_Rea)
-
+    re.destruct()
 
 if __name__ == "__main__":
     main()
