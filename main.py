@@ -14,7 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.service import Service
 import sys
 
-Fail_Rea = ''
+
 DKYC = ''
 DKTIME = ''
 
@@ -29,6 +29,9 @@ class report:
         self.__client = webdriver.Chrome(service=Service(
             '/usr/bin/chromedriver'), options=chrome_options)
         self.__wait = WebDriverWait(self.__client, 10, 0.5)
+
+    def __getText(self,xpath:str):
+        return self.__wait.until(EC.visibility_of_element_located((By.XPATH,xpath)))
 
     def __get_element_by_xpath(self, xpath: str):
         return self.__wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
@@ -61,7 +64,7 @@ class report:
 
     def do(self, location: str) -> bool:
         try:
-            global Fail_Rea
+            
             select_js = """
                     function getElementByXpath(path) {
                     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -111,8 +114,8 @@ class report:
             submit_button.click()
             #change_submit.click()
             time.sleep(1)
-            attention = self.__get_element_by_xpath(
-                '/html/body/div[3]/div[2]/div').text  # /html/body/div[3]/div[2]/div
+            attention = self.__getText(
+                '/html/body/div[3]/div[1]/div').text  # /html/body/div[3]/div[2]/div
             print(attention)
             if attention == '确认提交吗':
                 confirm_button = self.__get_element_by_xpath(
@@ -123,8 +126,7 @@ class report:
             else:
                 return False
         except Exception as e:
-            Fail_Rea = e
-            print(e)
+            logging(e)
             return False
 
     def check(self) -> bool:
@@ -191,7 +193,7 @@ def main(dev: bool = False):
                 logging.info('error: {}'.format(username))
                 if DD_BOT_TOKEN:
                     notify.title ='ERROR'
-                    notify.content='打卡失败！\n 失败原因:%s' % Fail_Rea
+                    notify.content='打卡失败！' 
                     notify.main()#
     re.destruct()
 
