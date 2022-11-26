@@ -30,8 +30,8 @@ class report:
             '/usr/bin/chromedriver'), options=chrome_options)
         self.__wait = WebDriverWait(self.__client, 10, 0.5)
 
-    def __getText(self,xpath:str):
-        return self.__wait.until(EC.visibility_of_element_located((By.XPATH,xpath)))
+    # def __getText(self,xpath:str):
+    #     return self.__wait.until(EC.visibility_of_element_located((By.XPATH,xpath)))
 
     def __get_element_by_xpath(self, xpath: str):
         return self.__wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
@@ -114,17 +114,16 @@ class report:
             submit_button.click()
             #change_submit.click()
             time.sleep(1)
-            attention = self.__getText(
-                '/html/body/div[3]/div[1]/div').text  # /html/body/div[3]/div[2]/div
-            print(attention)
-            if attention == '确认提交吗':
-                confirm_button = self.__get_element_by_xpath(
+            # attention = self.__getText(
+            #     '/html/body/div[3]/div[1]/div').text  # /html/body/div[3]/div[2]/div
+            # print(attention)
+            # if attention == '确认提交吗':
+            confirm_button = self.__get_element_by_xpath(
                     '/html/body/div[3]/div[3]/button[2]')  # /html/body/div[3]/div[3]/button[2]
-                confirm_button.click()
-                self.__flag = True
-                return True
-            else:
-                return False
+            confirm_button.click()
+            self.__flag = True
+            return True
+
         except Exception as e:
             logging(e)
             return False
@@ -146,6 +145,9 @@ class report:
         logging.info('unix_dtime: {}, unix_ctime:{}'.format(
             unix_dtime, unix_ctime))
         return True if unix_dtime <= unix_ctime else False
+    
+    def reload(self):
+        self.__client.get('https://yqfk.zcmu.edu.cn:6006/iForm/2714073AABBBDF56AF8E54')
 
     def destruct(self):
         self.__client.quit()
@@ -177,7 +179,7 @@ def main(dev: bool = False):
         else:
             # if dev:
             #     return '打卡成功！'
-            while retries >= 0:
+            while re.check() != True & retries >= 0 :
                 if re.do(location):
                     logging.info(
                         'succeed: {}'.format(username))
@@ -187,6 +189,7 @@ def main(dev: bool = False):
                         notify.main()
                     break
                 retries -= 1
+                re.reload()
             else:
                 # if dev:
                 #     return '打卡失败！'
