@@ -1,6 +1,6 @@
 import datetime
 import os
-from notify
+import notify
 import json
 import logging
 import time
