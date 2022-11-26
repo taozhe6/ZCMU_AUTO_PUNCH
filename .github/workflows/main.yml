@@ -37,4 +37,6 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           TOKEN: ${{ secrets.TOKEN }}
           LOCATION: ${{secrets.LOCATION}}
+          DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
+          DD_BOT_TOKEN: ${{secrets.DD_BOT_TOKEN}}
         run: python main.py
