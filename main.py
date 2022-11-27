@@ -164,8 +164,8 @@ def main(dev: bool = False):
     DD_BOT_SECRET =os.environ["DD_BOT_SECRET"].strip()
     location = os.environ["LOCATION"].strip()
     # location='浙江省/杭州市/富阳区/富春街道'
-    logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
-                        format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    #logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
+    #                    format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     re = report()
     print(DKYC)
     if re.login(username, password):
