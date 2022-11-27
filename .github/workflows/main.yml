@@ -39,4 +39,5 @@ jobs:
           LOCATION: ${{secrets.LOCATION}}
           DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
           DD_BOT_TOKEN: ${{secrets.DD_BOT_TOKEN}}
+          PUSH_PLUS_TOKEN: ${{secrets.PUSH_PLUS_TOKEN}}
         run: python main.py
