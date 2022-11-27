@@ -249,7 +249,7 @@ def main(dev: bool = False):
                     
                         if i !=0:
                                 if token:
-                                    re.pushplus_bot('ERROR','用户:%s打卡失败！' %(user_list[i])' % (DKYC, DKTIME),token,'')                
+                                    re.pushplus_bot('ERROR','用户:%s打卡失败！' %(user_list[i]),token,'')                
     re.destruct()    
     
 if __name__ == "__main__":
