@@ -85,9 +85,6 @@ for k in push_config:
     if os.getenv(k):
         v = os.getenv(k)
         push_config[k] = v
-    if k == 'PUSH_PLUS_TOKEN':
-        push_config[k] = ''
-
 
 def bark(title: str, content: str) -> None:
     """
