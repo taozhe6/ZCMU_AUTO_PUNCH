@@ -174,7 +174,7 @@ def main(dev: bool = False):
         if i != 0 :
             push_plus_token= os.environ["PUSH_PLUS_TOKEN"]
             PUSH_PLUS_TOKEN_list  = push_plus_token.split(',')
-            PUSH_PLUS_TOKEN = PUSH_PLUS_TOKEN_list[i]            
+            notify.push_config['PUSH_PLUS_TOKEN'] = PUSH_PLUS_TOKEN_list[i]        
         if re.login(user_list[i], passwd_list[i]):            
             if re.check():
                 # if dev:
