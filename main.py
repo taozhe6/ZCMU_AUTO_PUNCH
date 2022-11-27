@@ -161,15 +161,22 @@ def main(dev: bool = False):
     password = os.environ["PASSWORD"]
     DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"]
     DD_BOT_SECRET =os.environ["DD_BOT_SECRET"]
+    push_plus_token= os.environ["PUSH_PLUS_TOKEN"]
     location = os.environ["LOCATION"]
     user_list = username.split(',')
     passwd_list = password.split(',')
+    PUSH_PLUS_TOKEN_list  = push_plus_token.split(',')
     # location='浙江省/杭州市/富阳区/富春街道'
     #logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
     #                    format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     
     #print(DKYC)
     for i in range(len(user_list)):
+        
+        if i == 0 :
+            PUSH_PLUS_TOKEN=''
+        else :
+            PUSH_PLUS_TOKEN = PUSH_PLUS_TOKEN_list[i-1]
         if re.login(user_list[i], passwd_list[i]):
             re = report()
             if re.check():
