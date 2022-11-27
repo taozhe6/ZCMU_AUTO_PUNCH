@@ -1,5 +1,4 @@
-# 施工中
- # ZCMU自动健康打卡脚本
+ # ZCMU自动健康打卡脚本 ![](https://img.shields.io/badge/%E6%89%93%E5%8D%A1-ZCMU-brightgreen)![](https://img.shields.io/github/workflow/status/OopsSnap/ZCMU_AUTO_PUNCH/ZCMU%20Auto%20Punch?style=plastic)
 ~~低调使用，建议私有库运行~~
  > 浙江中医药大学自动健康打卡
 
