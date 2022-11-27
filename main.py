@@ -183,6 +183,7 @@ def main(dev: bool = False):
                 if re.do(location):
                     logging.info(
                         'succeed: {}'.format(username))
+                    re.check()
                     if DD_BOT_TOKEN:
                         notify.title = 'Successful'
                         notify.content = '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC, DKTIME)                             
@@ -197,7 +198,7 @@ def main(dev: bool = False):
                 if DD_BOT_TOKEN:
                     notify.title ='ERROR'
                     notify.content='打卡失败！' 
-                    notify.main()#
+                    notify.main()
     re.destruct()
 
 if __name__ == "__main__":
