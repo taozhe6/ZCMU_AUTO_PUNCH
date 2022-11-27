@@ -162,8 +162,10 @@ def main(dev: bool = False):
     DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"]
     DD_BOT_SECRET =os.environ["DD_BOT_SECRET"]
     location = os.environ["LOCATION"]
+    TOKEN = os.environ["TOKEN"]
     user_list = username.split(',')
     passwd_list = password.split(',')
+    
     # location='浙江省/杭州市/富阳区/富春街道'
     #logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
     #                    format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
@@ -172,17 +174,20 @@ def main(dev: bool = False):
     for i in range(len(user_list)):
         re = report()
         if i != 0 :
-            push_plus_token= os.environ["PUSH_PLUS_TOKEN"]
-            PUSH_PLUS_TOKEN_list  = push_plus_token.split(',')
-            notify.push_config['PUSH_PLUS_TOKEN'] = PUSH_PLUS_TOKEN_list[i]        
-        if re.login(user_list[i], passwd_list[i]):            
+            PUSH_PLUS_TOKEN_list  = TOKEN.split(',')
+            token = PUSH_PLUS_TOKEN_list[i]
+        if re.login(user_list[i], passwd_list[i]):
             if re.check():
                 # if dev:
                 #     return '已经打过卡了！'
                 if DD_BOT_TOKEN:
                     notify.title='Already'
-                    notify.content='用户:%s已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (user_list[i],DKYC, DKTIME)
+                    notify.content='已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME)
                     notify.main()
+                
+                    if i !=0:
+                        if token:
+                            re.pushplus_bot('Already','已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME),token,'')
             else:
                 # if dev:
                 #     return '打卡成功！'
@@ -193,8 +198,12 @@ def main(dev: bool = False):
                         re.check()
                         if DD_BOT_TOKEN:
                             notify.title = 'Successful'
-                            notify.content = '用户:%s打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME)                             
+                            notify.content = '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC, DKTIME)                             
                             notify.main()
+                        
+                            if i !=0:
+                                    if token:
+                                        re.pushplus_bot('Already','已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME),token,'')
                         break
                     retries -= 1
                     re.reload()
@@ -204,9 +213,13 @@ def main(dev: bool = False):
                     logging.info('error: {}'.format(username))
                     if DD_BOT_TOKEN:
                         notify.title ='ERROR'
-                        notify.content='用户:%s打卡失败！' %(user_list[i],DKYC,DKTIME) 
-                        notify.main()                   
-    re.destruct()
-
+                        notify.content='打卡失败！' 
+                        notify.main()
+                    
+                        if i !=0:
+                                if token:
+                                    re.pushplus_bot('Already','已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME),token,'')                
+    re.destruct()    
+    
 if __name__ == "__main__":
     main()
