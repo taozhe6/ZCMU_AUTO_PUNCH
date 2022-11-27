@@ -37,8 +37,7 @@ class report:
         return self.__wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
 
     def login(self, username: str, password: str) -> bool:
-        self.__username = username
-
+        self.__username = username       
         self.__flag = False
         try:
             self.__client.get(
@@ -158,47 +157,51 @@ class report:
 
 def main(dev: bool = False):
     retries = 5
-    username = os.environ["USERNAME"].strip()
-    password = os.environ["PASSWORD"].strip()
-    DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"].strip()
-    DD_BOT_SECRET =os.environ["DD_BOT_SECRET"].strip()
-    location = os.environ["LOCATION"].strip()
+    username = os.environ["USERNAME"]
+    password = os.environ["PASSWORD"]
+    DD_BOT_TOKEN = os.environ["DD_BOT_TOKEN"]
+    DD_BOT_SECRET =os.environ["DD_BOT_SECRET"]
+    location = os.environ["LOCATION"]
+    user_list = username.split(',')
+    passwd_list = password.split(',')
     # location='浙江省/杭州市/富阳区/富春街道'
     #logging.basicConfig(level=logging.INFO, filename="daily.log", filemode="w",
     #                    format="%(asctime)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
-    re = report()
-    print(DKYC)
-    if re.login(username, password):
-        if re.check():
-            # if dev:
-            #     return '已经打过卡了！'
-            if DD_BOT_TOKEN:
-                notify.title='Already'
-                notify.content='已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (DKYC, DKTIME)
-                notify.main()
-        else:
-            # if dev:
-            #     return '打卡成功！'
-            while re.check() != True & retries >= 0 :
-                if re.do(location):
-                    logging.info(
-                        'succeed: {}'.format(username))
-                    re.check()
-                    if DD_BOT_TOKEN:
-                        notify.title = 'Successful'
-                        notify.content = '打卡成功！\n打卡状态:%s\n打卡时间:%s' %(DKYC, DKTIME)                             
-                        notify.main()
-                    break
-                retries -= 1
-                re.reload()
+    
+    #print(DKYC)
+    for i in range(len(user_list)):
+        if re.login(user_list[i], passwd_list[i]):
+            re = report()
+            if re.check():
+                # if dev:
+                #     return '已经打过卡了！'
+                if DD_BOT_TOKEN:
+                    notify.title='Already'
+                    notify.content='用户:%s已经打过卡了！\n打卡状态:%s\n打卡时间:%s' % (user_list[i],DKYC, DKTIME)
+                    notify.main()
             else:
                 # if dev:
-                #     return '打卡失败！'
-                logging.info('error: {}'.format(username))
-                if DD_BOT_TOKEN:
-                    notify.title ='ERROR'
-                    notify.content='打卡失败！' 
-                    notify.main()
+                #     return '打卡成功！'
+                while re.check() != True & retries >= 0 :
+                    if re.do(location):
+                        logging.info(
+                            'succeed: {}'.format(username))
+                        re.check()
+                        if DD_BOT_TOKEN:
+                            notify.title = 'Successful'
+                            notify.content = '用户:%s打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME)                             
+                            notify.main()
+                        break
+                    retries -= 1
+                    re.reload()
+                else:
+                    # if dev:
+                    #     return '打卡失败！'
+                    logging.info('error: {}'.format(username))
+                    if DD_BOT_TOKEN:
+                        notify.title ='ERROR'
+                        notify.content='用户:%s打卡失败！' %(user_list[i],DKYC,DKTIME) 
+                        notify.main()                   
     re.destruct()
 
 if __name__ == "__main__":
