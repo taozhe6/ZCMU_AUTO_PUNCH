@@ -35,7 +35,6 @@ jobs:
           TZ: Asia/Shanghai
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          TOKEN: ${{ secrets.TOKEN }}
           LOCATION: ${{secrets.LOCATION}}
           DD_BOT_SECRET: ${{secrets.DD_BOT_SECRET}}
           DD_BOT_TOKEN: ${{secrets.DD_BOT_TOKEN}}
