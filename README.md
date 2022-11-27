@@ -25,10 +25,14 @@
  | PASSWORD      | 统一身份认证密码 |   https://ias.zcmu.edu.cn/cas/login |
  | DD_BOT_TOKEN（选填） | 推送服务     | 钉钉推送(DD_BOT_TOKEN和DD_BOT_SECRET两者必需)官方文档 ,只需https://oapi.dingtalk.com/robot/send?access_token=XXX 等于=符号后面的XXX即可 |
  | DD_BOT_SECRET(选填)  |推送服务      | (DD_BOT_TOKEN和DD_BOT_SECRET两者必需) ,密钥，机器人安全设置页面，加签一栏下面显示的SEC开头的SECXXXXXXXXXX等字符 , 注:钉钉机器人安全设置只需勾选加签即可，其他选项不要勾选|
+ |PUSH_PLUS_TOKEN(选填) ||','分隔|
  |LOCATION      |定位              | 须按规范填写，后果自负|
  
+### 推送说明
+ > 自用 ✔ dingdingbot，可以自行修改代码
+ > 主用户使用DingDingBot，其余用户使用[pushplus](http://www.pushplus.plus)
  
- 自用 ✔ dingdingbot，可以自行修改代码
+ > 主用户监测所有用户打卡情况，其余用户各自分别推送各自的情况
   
  > 配置方法演示
 
