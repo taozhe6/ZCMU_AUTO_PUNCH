@@ -176,7 +176,7 @@ def main(dev: bool = False):
         if i == 0 :
             PUSH_PLUS_TOKEN=''
         else :
-            PUSH_PLUS_TOKEN = PUSH_PLUS_TOKEN_list[i-1]
+            PUSH_PLUS_TOKEN = PUSH_PLUS_TOKEN_list[i]
         if re.login(user_list[i], passwd_list[i]):
             re = report()
             if re.check():
