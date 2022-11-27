@@ -172,13 +172,12 @@ def main(dev: bool = False):
     
     #print(DKYC)
     for i in range(len(user_list)):
-        
+        re = report()
         if i == 0 :
             PUSH_PLUS_TOKEN=''
         else :
             PUSH_PLUS_TOKEN = PUSH_PLUS_TOKEN_list[i]
-        if re.login(user_list[i], passwd_list[i]):
-            re = report()
+        if re.login(user_list[i], passwd_list[i]):            
             if re.check():
                 # if dev:
                 #     return '已经打过卡了！'
