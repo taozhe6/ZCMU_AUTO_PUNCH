@@ -228,7 +228,7 @@ def main(dev: bool = False):
                             'succeed: {}'.format(username))
                         re.check()
                         if DD_BOT_TOKEN:
-                            notify.title = 'Successful'
+                            notify.title = 'Succeed'
                             notify.content = '用户:%s\n打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME)                             
                             notify.main()
                         
