@@ -227,15 +227,27 @@ def main(dev: bool = False):
                         logging.info(
                             'succeed: {}'.format(username))
                         re.check()
-                        if DD_BOT_TOKEN:
-                            notify.title = 'Succeed'
-                            notify.content = '用户:%s\n打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME)                             
-                            notify.main()
-                        
-                            if i !=0:
-                                    if token:
-                                        re.pushplus_bot('Successful','用户:%s\n打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME) ,token,'')
-                        break
+                        if DKYC == '正常' :
+                            if DD_BOT_TOKEN:
+                                notify.title = 'Succeeded'
+                                notify.content = '用户:%s\n打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME)                             
+                                notify.main()
+                            
+                                if i !=0:
+                                        if token:
+                                            re.pushplus_bot('Succeeded','用户:%s\n打卡成功！\n打卡状态:%s\n打卡时间:%s' %(user_list[i],DKYC, DKTIME) ,token,'')
+                            break
+                        else:
+                            if DD_BOT_TOKEN:
+                                notify.title = 'Abormal'
+                                notify.content = '用户:%s,打卡异常，请检查！'                             
+                                notify.main()
+                            
+                                if i !=0:
+                                        if token:
+                                            re.pushplus_bot('Abormal','用户:%s,打卡异常，请检查！'  ,token,'')
+                            break
+
                     retries -= 1
                     re.reload()
                 else:
